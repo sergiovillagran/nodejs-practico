@@ -1,0 +1,28 @@
+{
+  "name": "nodejs-microservice-practice",
+  "version": "1.0.0",
+  "description": "Proyecto de nodejs del curso de nodejs practico de platzi.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sergiovillagran/nodejs-practico.git"
+  },
+  "keywords": [
+    "nodejs",
+    "microservices",
+    "sergio",
+    "villagran"
+  ],
+  "author": "Sergio Villagran",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sergiovillagran/nodejs-practico/issues"
+  },
+  "homepage": "https://github.com/sergiovillagran/nodejs-practico#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
