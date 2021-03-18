@@ -1,7 +1,7 @@
 const db = {
     'user': [
         { id: '1', name: 'Sergio' }
-    ]
+    ],
 };
 
 async function list(table) {
@@ -14,6 +14,9 @@ async function get (table, id) {
 }
 
 async function upsert (table, data) {
+    if (!db[table]) {
+        db[table] = [];
+    }
     return db[table].push(data)
 }
 
