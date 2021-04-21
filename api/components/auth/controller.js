@@ -22,8 +22,19 @@ module.exports = function (injectedStore) {
         return store.upsert(TABLE, authData);
     }
 
+    async function login (username, password) {
+        const data = await store.query(TABLE, { username });
+        if (data.password === password) {
+            // Generar Token
+            return 'TOKEN'
+        } else {
+            throw new Error('Invalid Information');
+        }
+    }
+
 
     return module.exports =  {
         upsert,
+        login
     }
 }
