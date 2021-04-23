@@ -1,4 +1,7 @@
+const { sign } = require('../../../auth')
+
 const TABLE = 'AUTH'
+
 module.exports = function (injectedStore) {
     let store = injectedStore
 
@@ -25,8 +28,7 @@ module.exports = function (injectedStore) {
     async function login (username, password) {
         const data = await store.query(TABLE, { username });
         if (data.password === password) {
-            // Generar Token
-            return 'TOKEN'
+            return sign(data);
         } else {
             throw new Error('Invalid Information');
         }
