@@ -11,6 +11,7 @@ module.exports = function (injectedStore) {
     }
 
     function upsert(data) {
+        console.log(data)
         const authData = {
             id: data.id
         }

@@ -1,5 +1,6 @@
 const express = require('express');
 
+const secure = require('./secure')
 const response = require('../../../network/response')
 const controller = require('./')
 
@@ -8,12 +9,13 @@ const router = express.Router();
 router.post('/', post)
 router.get('/', get)
 router.get('/:id', getById)
+router.put('/', secure('update'), post)
 
 async function post (req, res) {
     try {
-        const { name, username, password } = req.body;
+        const { id, name, username, password } = req.body;
         const user = await controller.upsert(
-            { name, username, password }
+            { id, name, username, password }
         );
         response.success(req, res, user, 200);
     } catch (error) {

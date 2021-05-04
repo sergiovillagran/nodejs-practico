@@ -17,6 +17,11 @@ async function upsert (table, data) {
     if (!db[table]) {
         db[table] = [];
     }
+
+    if (await query(table, { id: data.id })) {
+        
+    }
+
     return db[table].push(data)
 }
 
