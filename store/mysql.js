@@ -68,9 +68,9 @@ function insert (table, data) {
     } )
 }
 
-function update (table, id) {
+function update (table, data) {
     return new Promise ( (resolve, reject) => {
-        connection.query(`SELECT * FROM ${table} WHERE id=${id}`, (error, data) => {
+        connection.query(`UPDATE ${table} SET ? WHERE id=?`, [data, data.id], (error, data) => {
             if (error) {
                 console.log('[db error]', error)
                 return reject(error);
@@ -81,8 +81,23 @@ function update (table, id) {
 }
 
 function upsert (table, data) {
+    if (data && data.id) {
+        return update(table, data);
+    }
     return insert(table, data);
-} 
+}
+
+function query (table, query) {
+    return new Promise((resolve, reject) => {
+        connection.query(`SELECT * FROM ${table} WHERE ?`, query, (error, data) => {
+            if (error) {
+                console.log('[db error]', error)
+                return reject(error);
+            }
+            resolve({ ...data[0] } || null);
+        });
+    });
+}
 
 handleConection();
 
@@ -91,5 +106,5 @@ module.exports = {
     get,
     insert,
     upsert,
-
+    query,
 };
