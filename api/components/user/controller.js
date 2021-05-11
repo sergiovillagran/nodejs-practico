@@ -41,10 +41,25 @@ module.exports = function (injectedStore) {
         return store.upsert(TABLE, user);
     }
 
+    async function follow (from, to){
+        return store.upsert(TABLE + '_follow', {
+            user_from: from,
+            user_to: to,
+        })
+    }
+
+    async function getFollows (from, to){
+        return store.query(TABLE + '_follow', {
+            user_from: from,
+        })
+    }
+
 
     return module.exports =  {
         list,
         get,
         upsert,
+        follow,
+        getFollows
     }
 }

@@ -46,7 +46,7 @@ function list (table) {
 
 function get (table, id) {
     return new Promise ( (resolve, reject) => {
-        connection.query(`SELECT * FROM ${table} WHERE id=${id}`, (error, data) => {
+        connection.query(`SELECT * FROM ${table} WHERE id="${id}"`, (error, data) => {
             if (error) {
                 console.log('[db error]', error)
                 return reject(error);
@@ -63,6 +63,7 @@ function insert (table, data) {
                 console.log('[db error]', error)
                 return reject(error);
             }
+            console.log(result)
             resolve(result);
         })
     } )
@@ -80,9 +81,12 @@ function update (table, data) {
     } )
 }
 
-function upsert (table, data) {
-    if (data && data.id) {
-        return update(table, data);
+async function upsert (table, data) {
+    if (data.id) {
+        const row = await get(table, data.id);
+        if (row.length > 0) {
+            return update(table, data);
+        }
     }
     return insert(table, data);
 }
@@ -93,6 +97,9 @@ function query (table, query) {
             if (error) {
                 console.log('[db error]', error)
                 return reject(error);
+            }
+            if (data.length > 1) {
+                resolve(data);
             }
             resolve({ ...data[0] } || null);
         });

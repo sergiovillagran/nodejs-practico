@@ -7,6 +7,8 @@ const controller = require('./')
 const router = express.Router();
 
 router.post('/', post)
+router.post('/follow/:id', secure('follow'), follow);
+router.get('/follow', secure('follow'), getFollows);
 router.get('/', get)
 router.get('/:id', getById)
 router.put('/', secure('update'), post)
@@ -41,6 +43,25 @@ async function getById(req, res) {
     } catch (error) {
         console.log(error);
         response.error(req, res, 'Error getting user by id', 500);
+    }
+}
+
+async function follow(req, res, next) {
+    try {
+        const result = await controller.follow(req.user.id, req.params.id);
+        response.success(req, res, result, 201);
+    } catch (error) {
+        console.log(error);
+        next();
+    }
+}
+async function getFollows(req, res, next) {
+    try {
+        const result = await controller.getFollows(req.user.id);
+        response.success(req, res, result, 201);
+    } catch (error) {
+        console.log(error);
+        next();
     }
 }
 
