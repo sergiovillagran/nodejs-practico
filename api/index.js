@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const config = require('../config.js');
 const user = require('./components/user/network');
 const auth = require('./components/auth/network');
+const post = require('./components/auth/network');
 const errors = require('../network/errors');
 
 const API_PREFIX = 'api'
@@ -15,6 +16,7 @@ app.use(bodyParser.json());
 // ROUTER
 app.use(`/${API_PREFIX}/user`, user);
 app.use(`/${API_PREFIX}/auth`, auth);
+app.use(`/${API_PREFIX}/auth`, post)
 
 app.use(errors)
 
