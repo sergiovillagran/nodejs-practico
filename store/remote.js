@@ -8,15 +8,16 @@ function createRemoteDB(host, port) {
         return data;
     }
 
-    function get(id) {
+    async function get(id) {
         const data = await doRequest('GET', table, { id })
         return data;
     }
-    function insert(data) {
+
+    async function insert(data) {
         const insertedRow = await doRequest('POST', table, data)
         return insertedRow;
     }
-    function upsert(id, data) {
+    async function upsert(id, data) {
         const updatResult = await doRequest('PUT', table, { id, ...data })
         return updatResult;
     }
