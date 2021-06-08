@@ -8,13 +8,22 @@ function createRemoteDB(host, port) {
         return data;
     }
 
-    function get(id) {}
-    function insert(data) {}
-    function upsert(id, data) {}
+    function get(id) {
+        const data = await doRequest('GET', table, { id })
+        return data;
+    }
+    function insert(data) {
+        const insertedRow = await doRequest('POST', table, data)
+        return insertedRow;
+    }
+    function upsert(id, data) {
+        const updatResult = await doRequest('PUT', table, { id, ...data })
+        return updatResult;
+    }
 
     async function doRequest (method, table, data) {
-        let url = `${URL}/${table}`
-        body = '';
+        let url = parseURL(table, data);
+        body = data;
 
         return new Promise((resolve, reject) => {
             request({
@@ -37,8 +46,17 @@ function createRemoteDB(host, port) {
     }
 
     return {
-        list
+        list,
+        get,
+        insert,
+        upsert
     }
+}
+
+function parseURL (table, data) {
+    return (data.id !== undefined) && (data.id !== null) 
+        ? `${URL}/${table}`:
+        `${URL}/${table}/data.id`;
 }
 
 module.exports = createRemoteDB;
